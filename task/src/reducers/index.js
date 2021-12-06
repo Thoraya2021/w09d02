@@ -5,8 +5,7 @@ import tasks from './task'
 
 //first step to work in redux
 
-const reducers = combineReducers({ Signin });
-const reducers = combineReducers({ tasks });
+const reducers = combineReducers({ Signin ,tasks });
 
 const store= ()=> {
     return createStore(reducers, composeWithDevTools());

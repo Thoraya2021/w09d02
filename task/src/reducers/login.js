@@ -21,7 +21,7 @@ const initialState = {
   };
   export default signin;
 
-  export const signin =(data)=>
+  export const Log =(data)=>
   {
 return {
     type :"LOGIN",

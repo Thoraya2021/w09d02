@@ -1,10 +1,19 @@
 import React, { useState ,useEffect} from "react";
 import axios from "axios";
 import './App.css';
+import { useSelector, useDispatch } from "react-redux";
 import Todos from "./components/task";
+import signin from "./reducers/login";
+
+
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 function App() {
+
+  const signin = useSelector(state => state.signin)
+
+  const dispatch = useDispatch()
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
     const [logemail, setLogEmail] = useState("");
@@ -34,6 +43,7 @@ const register = async () => {
       password:password,
      // role:role
     });
+    dispatch(signin(result.data))
     console.log(result)
     }
     catch(error)

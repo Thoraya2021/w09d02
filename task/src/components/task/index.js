@@ -1,16 +1,23 @@
 import React, { useState,useEffect } from "react";
 import axios from "axios";
 import "./style.css";
+import { useSelector, useDispatch} from "react-redux";
+import Tasks from "./reducers/task";
+
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const Todos = () => {
+
+  const signin = useSelector(state => state.signin)
+
+  const dispatch = useDispatch()
     const [todos,setTodos] = useState([]);
     const [token,setToken]= useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    setToken(token);
+    setToken(result.data.token);
     todoss();
 
   }, []);
@@ -22,8 +29,9 @@ try{
 const result=await axios.get(`${BASE_URL}/todo/alltodos`,
 {
   headers:
-   { Authorization: `bearer ${token}` },
+   { Authorization: `bearer ${token.state.signin}` },
 });
+dispatch(Tasks(result.data))
 setTodos(result.data)
 //console.log(result)
 }
@@ -44,7 +52,7 @@ const addtodo = async () => {
       },
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token.state.data}`,
         },
       }
     );
