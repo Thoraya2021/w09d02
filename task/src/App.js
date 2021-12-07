@@ -3,60 +3,45 @@ import axios from "axios";
 import './App.css';
 import { useSelector, useDispatch } from "react-redux";
 import Todos from "./components/task";
-import signin from "./reducers/login";
-
+import signin from './reducers/login';
 
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 function App() {
 
-  const signin = useSelector(state => state.signin)
-
-  const dispatch = useDispatch()
+  const state = useSelector((state)=>{
+    return {
+      signin : state.Signin 
+    }
+  })
+  console.log(state);
+  const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
     const [logemail, setLogEmail] = useState("");
 const [logpassword, setLogPassword] = useState("");
+ const [token,setToken]= useState("");
 
-//const [token,setToken]= useState("");
-/*
+
 useEffect(() => {
-    const token = localStorage.getItem("token");
-    setToken(token);
+   const token = localStorage.getItem("token");
+    setToken(result.data.token)
 }, [])
-*/
-  //const [role, setRole] = useState("61aca7bb67df5f2e24b890a9");
-  //const [token,setToken]= useState("");
 
-/*
-  useEffect(() => {
-    //  const token = localStorage.getItem("token");
-     // setToken(token);
-  }, [])
-*/
 const register = async () => {
-    try{
     const result=await axios.post(`${BASE_URL}/signup`,
     {
       email:email,
       password:password,
      // role:role
     });
-    dispatch(signin(result.data))
     console.log(result)
     }
-    catch(error)
-    {
-      console.log(console.error)
-    }
-    
-      };
-  
-    ///////////login 
+
+      ///////////login 
   
     const login = async () => {
-    try{
     
     const result=await axios.post(`${BASE_URL}/login`,
     {
@@ -65,10 +50,15 @@ const register = async () => {
     });
     console.log(result)
     }
-    catch(error)
-    {
-    console.log(console.error)
-    }};
+  
+   
+    localStorage.setItem("token", token);
+const data={
+  user:result.data.user,
+  token:result.data.token
+}
+dispatch(signin(data));
+
 
   return (
     <div className="register">

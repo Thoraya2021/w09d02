@@ -2,48 +2,40 @@ import React, { useState,useEffect } from "react";
 import axios from "axios";
 import "./style.css";
 import { useSelector, useDispatch} from "react-redux";
-import Tasks from "./reducers/task";
+import tasks from "../task";
 
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const Todos = () => {
 
-  const signin = useSelector(state => state.signin)
+const state= useSelector((state)=>{
+  return {
+    tasks:state.tasks
+  }
+})
+console.log(state);
 
-  const dispatch = useDispatch()
+const dispatch = useDispatch();
+
     const [todos,setTodos] = useState([]);
     const [token,setToken]= useState("");
+useEffect(() => {
+ const token = localStorage.getItem("token");
+  setToken(data.token.result);
+  todoss();
+}, [])
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setToken(result.data.token);
-    todoss();
-
-  }, []);
 
   ///get all 
 const todoss = async () => {
-try{
 
-const result=await axios.get(`${BASE_URL}/todo/alltodos`,
+const result =await axios.get(`${BASE_URL}/todo/alltodos`,
 {
   headers:
-   { Authorization: `bearer ${token.state.signin}` },
+   { Authorization: `bearer ${token.state.Signin}` },
 });
-dispatch(Tasks(result.data))
-setTodos(result.data)
-//console.log(result)
-}
-catch(error)
-{
-console.log(console.error)
-}
 
-};
-
-
-//////////add new tasks
 const addtodo = async () => {
     await axios.post(
       `${BASE_URL}/todo/todos`,
@@ -58,16 +50,6 @@ const addtodo = async () => {
     );
     todoss(token);
 };
-
-
-/*
-todoRouter.get("/alltodos", getalltodos);
-todoRouter.get("/todos/:id", authentication, getTodosById);
-todoRouter.post("/todos", createtodo);
-todoRouter.put("/todos/:id",authorization, updateTodo);
-todoRouter.delete("/todos/:id",authentication, deleteTodo);
-*/
-
 const deletetodo = async (id) => {
     await axios.delete(
       `${BASE_URL}/todo/todos/${id}`,
@@ -80,6 +62,10 @@ const deletetodo = async (id) => {
     todoss(token);
 };
 
+const data={
+  name:result.data.name,
+}
+dispatch(tasks(data));
   return ( <div className="tasks">
         <h1>Here what`s Tasks</h1>
         <div>
@@ -108,5 +94,5 @@ const deletetodo = async (id) => {
 
   </div>
   )};
-
+  }
 export default Todos;
